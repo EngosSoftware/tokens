@@ -61,3 +61,23 @@ fn _0011() {
 fn _0012() {
   assert_eq!(vec!["alpha", "beta", "gamma"], tokenize("    alpha   beta\ngamma  "));
 }
+
+#[test]
+fn _0013() {
+  assert_eq!(vec!["alpha", "beta gamma", "delta"], tokenize(r#"    alpha "beta gamma" delta  "#));
+}
+
+#[test]
+fn _0014() {
+  assert_eq!(vec!["alpha", "beta gamma", "delta"], tokenize(r#"    alpha 'beta gamma' delta  "#));
+}
+
+#[test]
+fn _0015() {
+  assert_eq!(vec!["alpha", "\"beta", "gamma", "delta"], tokenize(r#"    alpha "beta   gamma  delta  "#));
+}
+
+#[test]
+fn _0016() {
+  assert_eq!(vec!["alpha", "'beta", "gamma", "delta"], tokenize(r#"    alpha 'beta gamma delta  "#));
+}
