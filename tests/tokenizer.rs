@@ -140,3 +140,16 @@ fn _0026() {
   assert_eq!(vec!["", ""], tokens(r#"""""""#));
   assert_eq!(vec!["", "", ""], tokens(r#""""""""#));
 }
+
+#[test]
+fn example() {
+  let input = r#"
+    fn main() {
+        println!("Hello, world!");
+    }
+  "#;
+
+  for token in tokens(input) {
+    println!("{}", token);
+  }
+}
