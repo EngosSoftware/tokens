@@ -1,34 +1,27 @@
 /// Returns a collection of tokens built from the given input.
 pub fn tokenize(input: impl AsRef<str>) -> Vec<String> {
   enum State {
-    Start,
-    Whitespace,
-    Token
+    OutsideToken,
+    InsideToken
   }
   let mut tokens = vec![];
-  let mut state = State::Start;
+  let mut state = State::OutsideToken;
   let mut token = String::new();
   for ch in input.as_ref().chars() {
     match state {
-      State::Start => {
+      State::OutsideToken => {
         if ch.is_whitespace() {
-          state = State::Whitespace;
-        } else {
+          state = State::OutsideToken;
+        }
+        else {
           token.push(ch);
-          state = State::Token;
+          state = State::InsideToken;
         }
       }
-      State::Whitespace => {
-        if !ch.is_whitespace() {
-          token.push(ch);
-          state = State::Token;
-        }
-      }
-      State::Token => {
+      State::InsideToken => {
         if ch.is_whitespace() {
-          tokens.push(token.clone());
-          token.clear();
-          state = State::Whitespace;
+          tokens.push(std::mem::take(&mut token));
+          state = State::OutsideToken;
         } else {
           token.push(ch);
         }
