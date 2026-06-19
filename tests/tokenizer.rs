@@ -119,6 +119,11 @@ fn _0023() {
 
 #[test]
 fn _0024() {
+  assert_eq!(vec!["alpha", "beta", "gamma", "delta"], tokens(r#"alpha "beta    gamma          delta"#));
+}
+
+#[test]
+fn _0025() {
   assert_eq!(vec!["a"], tokens(r#""a"#));
   assert_eq!(vec!["", "a"], tokens(r#"""a"#));
   assert_eq!(vec!["", "a"], tokens(r#""""a"#));
@@ -126,7 +131,7 @@ fn _0024() {
 }
 
 #[test]
-fn _0025() {
+fn _0026() {
   assert_eq!(EMPTY, tokens(r#""#));
   assert_eq!(EMPTY, tokens(r#"""#));
   assert_eq!(vec![""], tokens(r#""""#));
