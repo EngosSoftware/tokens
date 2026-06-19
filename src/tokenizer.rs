@@ -1,11 +1,10 @@
 /// Returns a collection of tokens built from the given input.
 pub fn tokenize(input: impl AsRef<str>) -> Vec<String> {
-  const SINGLE_QUOTE: char = '\'';
   const DOUBLE_QUOTE: char = '"';
   enum State {
     OutsideToken,
     InsideToken,
-    InsideQuote(char),
+    InsideQuote,
   }
   let mut tokens = vec![];
   let mut state = State::OutsideToken;
@@ -13,8 +12,8 @@ pub fn tokenize(input: impl AsRef<str>) -> Vec<String> {
   for ch in input.as_ref().chars() {
     match state {
       State::OutsideToken => match ch {
-        SINGLE_QUOTE | DOUBLE_QUOTE => {
-          state = State::InsideQuote(ch);
+        DOUBLE_QUOTE => {
+          state = State::InsideQuote;
         }
         other if other.is_whitespace() => {}
         other => {
@@ -23,9 +22,9 @@ pub fn tokenize(input: impl AsRef<str>) -> Vec<String> {
         }
       },
       State::InsideToken => match ch {
-        SINGLE_QUOTE | DOUBLE_QUOTE => {
+        DOUBLE_QUOTE => {
           tokens.push(std::mem::take(&mut token));
-          state = State::InsideQuote(ch);
+          state = State::InsideQuote;
         }
         other if other.is_whitespace() => {
           tokens.push(std::mem::take(&mut token));
@@ -35,22 +34,17 @@ pub fn tokenize(input: impl AsRef<str>) -> Vec<String> {
           token.push(other);
         }
       },
-      State::InsideQuote(quote) => {
-        if ch == quote {
+      State::InsideQuote => match ch {
+        DOUBLE_QUOTE => {
           tokens.push(std::mem::take(&mut token));
           state = State::OutsideToken;
-        } else {
-          token.push(ch);
         }
-      }
+        other => token.push(other),
+      },
     }
   }
-  if let State::InsideQuote(quote) = state {
-    let mut tail_tokens = tokenize(token);
-    if let Some(first) = tail_tokens.first_mut() {
-      first.insert(0, quote);
-    }
-    tokens.append(&mut tail_tokens);
+  if let State::InsideQuote = state {
+    tokens.append(&mut tokenize(token));
   } else if !token.is_empty() {
     tokens.push(token);
   }
