@@ -1,4 +1,4 @@
-# Tokenizer
+# Whitespace and quoted-strings tokenizer
 
 ## Overview
 

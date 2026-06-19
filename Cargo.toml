@@ -2,7 +2,7 @@
 name = "tokens"
 version = "0.1.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
-description = "Input tokenizer"
+description = "Whitespace and quoted-strings tokenizer"
 documentation = "https://docs.rs/tokens"
 repository = "https://github.com/EngosSoftware/tokens.git"
 keywords = ["token", "tokens", "tokenize", "tokenizer"]

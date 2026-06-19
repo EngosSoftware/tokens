@@ -1,4 +1,4 @@
-/// Returns a vector of tokens built from the given input.
+/// Tokenizes a string into whitespace-separated words with support for quoted phrases.
 pub fn tokens(input: &str) -> Vec<&str> {
   const QUOTE: char = '"';
   enum State {
