@@ -3,50 +3,42 @@ pub fn tokenize(input: impl AsRef<str>) -> Vec<String> {
   const DOUBLE_QUOTE: char = '"';
   enum State {
     OutsideToken,
-    InsideToken,
-    InsideQuote,
+    InsideToken(usize),
+    InsideQuote(usize),
   }
   let mut tokens = vec![];
   let mut state = State::OutsideToken;
-  let mut token = String::new();
-  for ch in input.as_ref().chars() {
+  let input = input.as_ref();
+  for (idx, ch) in input.char_indices() {
     match state {
       State::OutsideToken => match ch {
-        DOUBLE_QUOTE => {
-          state = State::InsideQuote;
-        }
+        DOUBLE_QUOTE => state = State::InsideQuote(idx + 1),
         other if other.is_whitespace() => {}
-        other => {
-          token.push(other);
-          state = State::InsideToken;
-        }
+        _ => state = State::InsideToken(idx),
       },
-      State::InsideToken => match ch {
+      State::InsideToken(start) => match ch {
         DOUBLE_QUOTE => {
-          tokens.push(std::mem::take(&mut token));
-          state = State::InsideQuote;
+          tokens.push(input[start..idx].to_string());
+          state = State::InsideQuote(idx + 1);
         }
         other if other.is_whitespace() => {
-          tokens.push(std::mem::take(&mut token));
+          tokens.push(input[start..idx].to_string());
           state = State::OutsideToken;
         }
-        other => {
-          token.push(other);
-        }
+        _ => {}
       },
-      State::InsideQuote => match ch {
-        DOUBLE_QUOTE => {
-          tokens.push(std::mem::take(&mut token));
+      State::InsideQuote(start) => {
+        if ch == DOUBLE_QUOTE {
+          tokens.push(input[start..idx].to_string());
           state = State::OutsideToken;
         }
-        other => token.push(other),
-      },
+      }
     }
   }
-  if let State::InsideQuote = state {
-    tokens.append(&mut tokenize(token));
-  } else if !token.is_empty() {
-    tokens.push(token);
+  match state {
+    State::InsideToken(start) => tokens.push(input[start..].to_string()),
+    State::InsideQuote(start) => tokens.append(&mut tokenize(&input[start..])),
+    State::OutsideToken => {}
   }
   tokens
 }
