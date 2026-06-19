@@ -1,6 +1,6 @@
 /// Returns a collection of tokens built from the given input.
 pub fn tokenize(input: &str) -> Vec<&str> {
-  const DOUBLE_QUOTE: char = '"';
+  const QUOTE: char = '"';
   enum State {
     OutsideToken,
     InsideToken(usize),
@@ -11,12 +11,12 @@ pub fn tokenize(input: &str) -> Vec<&str> {
   for (idx, ch) in input.char_indices() {
     match state {
       State::OutsideToken => match ch {
-        DOUBLE_QUOTE => state = State::InsideQuote(idx + 1),
+        QUOTE => state = State::InsideQuote(idx + 1),
         other if other.is_whitespace() => {}
         _ => state = State::InsideToken(idx),
       },
       State::InsideToken(start) => match ch {
-        DOUBLE_QUOTE => {
+        QUOTE => {
           tokens.push(&input[start..idx]);
           state = State::InsideQuote(idx + 1);
         }
@@ -27,7 +27,7 @@ pub fn tokenize(input: &str) -> Vec<&str> {
         _ => {}
       },
       State::InsideQuote(start) => {
-        if ch == DOUBLE_QUOTE {
+        if ch == QUOTE {
           tokens.push(&input[start..idx]);
           state = State::OutsideToken;
         }
