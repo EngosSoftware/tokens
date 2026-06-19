@@ -7,6 +7,8 @@ WOR IN PROGRESS
 ### Example
 
 ```rust
+use tokens::tokens;
+
 let input = r#"
   fn main() {
     println!("Hello, world!");
