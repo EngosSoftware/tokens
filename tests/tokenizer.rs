@@ -1,6 +1,6 @@
 use tokens::tokenize;
 
-const EMPTY: Vec<String> = vec![];
+const EMPTY: Vec<&str> = vec![];
 
 #[test]
 fn _0001() {
@@ -110,4 +110,23 @@ fn _0021() {
 #[test]
 fn _0022() {
   assert_eq!(vec!["alpha'beta'gamma'delta"], tokenize("alpha'beta'gamma'delta"));
+}
+
+#[test]
+fn _0023() {
+  assert_eq!(vec!["a"], tokenize(r#""a"#));
+  assert_eq!(vec!["", "a"], tokenize(r#"""a"#));
+  assert_eq!(vec!["", "a"], tokenize(r#""""a"#));
+  assert_eq!(vec!["", "", "a"], tokenize(r#"""""a"#));
+}
+
+#[test]
+fn _0024() {
+  assert_eq!(EMPTY, tokenize(r#""#));
+  assert_eq!(EMPTY, tokenize(r#"""#));
+  assert_eq!(vec![""], tokenize(r#""""#));
+  assert_eq!(vec![""], tokenize(r#"""""#));
+  assert_eq!(vec!["", ""], tokenize(r#""""""#));
+  assert_eq!(vec!["", ""], tokenize(r#"""""""#));
+  assert_eq!(vec!["", "", ""], tokenize(r#""""""""#));
 }
