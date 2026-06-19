@@ -37,7 +37,7 @@
 [es-url]: https://engos.de
 [repository-url]: https://github.com/EngosSoftware/tokens
 
-# Tokenizer
+# Whitespace and quoted-strings tokenizer
 
 ## Overview
 
