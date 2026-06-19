@@ -28,9 +28,7 @@ pub fn tokens(input: &str) -> Vec<&str> {
       },
       State::InsideQuote(start) => {
         if ch == QUOTE {
-          if index > start {
-            tokens.push(&input[start..index]);
-          }
+          tokens.push(&input[start..index]);
           state = State::OutsideToken;
         }
       }
