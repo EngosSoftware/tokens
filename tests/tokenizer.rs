@@ -64,7 +64,7 @@ fn _0012() {
 
 #[test]
 fn _0013() {
-  assert_eq!(vec!["alpha", "beta gamma", "delta"], tokens(r#"    alpha "beta gamma" delta  "#));
+  assert_eq!(vec!["alpha", "beta   \t \r   \n  gamma", "delta"], tokens("    alpha \"beta   \t \r   \n  gamma\" delta  "));
 }
 
 #[test]
