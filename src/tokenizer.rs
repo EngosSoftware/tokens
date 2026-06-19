@@ -1,5 +1,5 @@
-/// Returns a collection of tokens built from the given input.
-pub fn tokenize(input: &str) -> Vec<&str> {
+/// Returns a vector of tokens built from the given input.
+pub fn tokens(input: &str) -> Vec<&str> {
   const QUOTE: char = '"';
   enum State {
     OutsideToken,

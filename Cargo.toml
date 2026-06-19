@@ -2,10 +2,10 @@
 name = "tokens"
 version = "0.1.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
-description = "Tokenizer"
+description = "Input tokenizer"
 documentation = "https://docs.rs/tokens"
 repository = "https://github.com/EngosSoftware/tokens.git"
-keywords = ["tokenizer"]
+keywords = ["token", "tokens", "tokenize", "tokenizer"]
 edition = "2024"
 license = "MIT OR Apache-2.0"
 exclude = [
@@ -16,5 +16,3 @@ exclude = [
     "CODE_OF_CONDUCT.md",
     "manual/"
 ]
-
-[dependencies]

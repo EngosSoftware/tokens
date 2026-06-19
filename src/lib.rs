@@ -1,3 +1,3 @@
 mod tokenizer;
 
-pub use tokenizer::tokenize;
+pub use tokenizer::tokens;
