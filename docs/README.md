@@ -2,7 +2,7 @@
 
 ## Overview
 
-WOR IN PROGRESS
+WORK IN PROGRESS
 
 ### Example
 
@@ -16,7 +16,7 @@ let input = r#"
 "#;
 
 for token in tokens(input) {
-  println!("{}", token);
+println ! ("{}", token);
 } 
 ```
 
